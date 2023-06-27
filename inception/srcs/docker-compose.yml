@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  db:
+    init: true
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      - MARIADB_DATABASE=${MYSQL_DATABASE}
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MARIADB_USER=${MYSQL_USER}
+      - MARIADB_PASSWORD=${MYSQL_PASSWORD}
+    restart: always
+    networks:
+      backend:
+  wp:
+    depends_on:
+     - db
+    init: true
+    restart: always
+    container_name: wordpress
+    build:
+      context: ./requirements/WordPress
+      args:
+        - FQDN=${FQDN}
+        - WP_DB=${WP_DB}
+        - WP_USER=${WP_USER}
+        - WP_PASSWORD=${WP_PASSWORD}
+        - WP_HOST=${WP_HOST}
+    image: wordpress_inception
+    volumes:
+      - wp-data:/var/www/html/wordpress
+    networks:
+      backend:
+      frontend:
+  nginx:
+    depends_on:
+     - wp
+    init: true
+    restart: always
+    build:
+      context: ./requirements/NGINX
+      args:
+        - NGINX_CERT=${NGINX_CERT}
+        - NGINX_KEY=${NGINX_KEY}
+        - DOMAIN_NAME=${DOMAIN_NAME}
+    container_name: nginx
+    image: nginx_inception
+    volumes:
+      - wp-data:/var/www/html/wordpress
+    networks:
+      frontend:
+    ports:
+      - "443:443"
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+volumes:
+  wp-data:
+    name: WordPress
+  portfolio-data:
+    name: Portfolio
