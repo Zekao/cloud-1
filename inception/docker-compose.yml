@@ -1,0 +1,74 @@
+version: "3.9"
+
+services:
+# ------------------- NGNIX DOCKER FILE ------------------- #
+  nginx:
+    depends_on:
+      - wordpress
+    build: ./srcs/nginx
+    ports:
+      - "443:443"
+    restart: always
+    networks:
+      - inception_network
+    image: "inception_nginx"
+    working_dir: /var/www/html
+    volumes:
+      - wp-files:/var/www/html
+# ------------------- WORDPRESS DOCKER FILE ------------------- #
+  wordpress:
+    depends_on:
+      - mariadb
+    image: wordpress
+    env_file:
+     - .env
+    build:
+      context: ./srcs/wordpress
+    ports:
+      - "9000:9000"
+    restart: always
+    working_dir: /var/www/html
+    networks:
+      - inception_network
+    volumes:
+      - wp-files:/var/www/html
+# ------------------- MARIADB DOCKER FILE ------------------- #
+  mariadb:
+    image: "inception_mariadb"
+    env_file:
+      - .env
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    build:
+      context: ./srcs/mariadb
+      args:
+        - MYSQL_DATABASE={MYSQL_DATABASE}
+        - MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD}
+        - MYSQL_USER={MYSQL_USER}
+        - MYSQL_PASSWORD={MYSQL_PASSWORD}
+    networks:
+      - inception_network
+    volumes:
+      - wp-db:/var/lib/mysql
+
+networks:
+  inception_network:
+    driver: bridge
+
+# ------------------- VOLUMES ------------------- #
+volumes:
+  wp-db:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/wp-db
+      o: bind
+
+  wp-files:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/wp-files
+      o: bind

@@ -61,7 +61,7 @@ Resources:
   IpAssociation:
     Type: AWS::EC2::EIPAssociation
     Properties:
-      AllocationId: eipalloc-0a76cfcb67c0868e3
+      AllocationId: eipalloc-0f76f0c8722fccdbc
       InstanceId: !Ref WebServer
 Outputs:
   WebServerIP:
