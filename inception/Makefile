@@ -2,7 +2,6 @@
 # HOME=/home/emaugale
 
 all:
-	export DOCKER_HOST=tcp://18.169.11.21:2375
 	mkdir -p ${HOME}/data/wp-db
 	mkdir -p ${HOME}/data/wp-files
 	docker compose build
@@ -11,6 +10,7 @@ dns:
 	@sudo sed -i "s/localhost/cloud.emaugale.com/g" /etc/hosts
 
 clean:
+	docker compose down
 	docker volume ls -qf dangling=true | xargs -r docker volume rm
 	docker system prune -a
 fclean: clean

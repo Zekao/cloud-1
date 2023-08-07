@@ -10,7 +10,7 @@
 
   - name: Copy my Inception folder to the remote server if it doesn't exist
     copy:
-      src: Inception
+      src: ../Inception
       dest: /tmp/
     when: not inception_directory.stat.exists
 
