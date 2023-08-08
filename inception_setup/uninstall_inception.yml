@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Stop running containers
+      shell: docker kill $(docker ps -q) && docker rm $(docker ps -a -q)
+
+    - name: Remove Inception directory
+      file:
+        path: /tmp/Inception
+        state: absent

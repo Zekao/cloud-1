@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Check if Inception directory exists on the remote server
+    stat:
+      path: /tmp/Inception
+    register: inception_directory
+
+  - name: Copy my Inception folder to the remote server if it doesn't exist
+    copy:
+      src: ../Inception
+      dest: /tmp/
+    when: not inception_directory.stat.exists
+
+  - name: install Make if not installed
+    apt:
+      name: make
+      state: present
+
+  - name: Run Inception makefile
+    shell: make -C /tmp/Inception

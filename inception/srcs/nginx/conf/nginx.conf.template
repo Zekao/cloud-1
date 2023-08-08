@@ -1,4 +1,4 @@
-# /etc/nginx/template/nginx.conf.template
+# /etc/nginx/conf/nginx.conf.template
 
 user nginx;
 
@@ -34,7 +34,7 @@ http {
 		location = /50x.html {
 			root /var/lib/nginx/html;
 		}
-
+		
 		location / {
     		# First attempt to serve request as file, then
     		# as directory, then fall back to displaying a 404.
@@ -52,3 +52,4 @@ http {
         }
 	}
 }
+	

@@ -1,2 +1,5 @@
 key.pem
 .env
+
+*.pem
+cloudOneEuWest

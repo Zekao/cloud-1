@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: delete a stack
+    amazon.aws.cloudformation:
+      stack_name: "ansible-cloudformation"
+      state: "absent"
