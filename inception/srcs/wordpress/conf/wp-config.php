@@ -12,10 +12,10 @@
 
 
 /* MySQL settings */
-define( 'DB_NAME',     'inception' );
-define( 'DB_USER',     'root' );
-define( 'DB_PASSWORD', 'wordpress' );	
-define( 'DB_HOST',     'mariadb' );
+define( 'DB_NAME',     '${WP_DB}'  );
+define( 'DB_USER',     '${WP_USER}' );
+define( 'DB_PASSWORD', '${WP_PASSWORD}' );
+define( 'DB_HOST', 	   '${WP_HOST}' );
 define( 'DB_CHARSET',  'utf8mb4' );
 
 

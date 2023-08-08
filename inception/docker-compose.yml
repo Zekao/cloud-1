@@ -24,6 +24,11 @@ services:
      - .env
     build:
       context: ./srcs/wordpress
+      args:
+        - WP_DB=${WP_DB}
+        - WP_USER=${WP_USER}
+        - WP_PASSWORD=${WP_PASSWORD}
+        - WP_HOST=${WP_HOST}
     ports:
       - "9000:9000"
     restart: always
