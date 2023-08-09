@@ -12,6 +12,14 @@ When you're sure that your credentils are correct, you can launch aws_creds_test
 python3 aws_creds_test.py
 ```
 
+You will also need to install ansible, boto3 and the amazon.aws collection
+
+```bash
+pip3 install --include-deps ansible
+pip3 install ansible boto3
+ansible-galaxy collection install amazon.aws
+```
+
 After that, you can launch the different playbooks, first of all the one that will create your stack
 
 ```bash
